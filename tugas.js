@@ -52,14 +52,38 @@ async function handleMenu(choice) {
         }
       break;
     case '2':
-        console.log(`Pesanan Anda adalah ${orders[addOrder]}`); // Output Pesanan Anda adalah , ,
-        showMenu()
+      if (orders.length === 0) {  /* Ditambahkan pengecekan jika array orders kosong. */
+        console.log("Tidak ada pesanan.");
+      } else {
+        console.log("Daftar Pesanan:");
+        orders.forEach((order, index) => { /* Digunakan forEach untuk iterasi dan menampilkan setiap pesanan beserta indeksnya. */
+          console.log(`${index + 1}. ${order}`);
+        });
+      }
+      showMenu();
       break;
+
     case '3':
-      // Tambahkan logika perbarui pesanan
+      const updateIndex = await askQuestion('Masukkan indeks pesanan yang ingin diubah: '); /* Meminta pengguna untuk memasukkan indeks pesanan yang ingin diubah. */
+      if (updateIndex >= 1 && updateIndex <= orders.length) { /* Memeriksa validitas indeks. */
+        const newOrder = await askQuestion('Masukkan pesanan baru: ');
+        orders[updateIndex - 1] = newOrder; /* Mengubah elemen array pada indeks yang sesuai. */
+        console.log("Pesanan berhasil diperbarui.");
+      } else {
+        console.log("Indeks pesanan tidak valid.");
+      }
+      showMenu();
       break;
+
     case '4':
-      // Tambahkan logika hapus pesanan
+      const deleteIndex = await askQuestion('Masukkan indeks pesanan yang ingin dihapus: '); /* Meminta pengguna untuk memasukkan indeks pesanan yang ingin dihapus. */
+      if (deleteIndex >= 1 && deleteIndex <= orders.length) { /* Memeriksa validitas indeks. */
+        orders.splice(deleteIndex - 1, 1); /* Menggunakan splice untuk menghapus elemen array pada indeks yang sesuai. */
+        console.log("Pesanan berhasil dihapus.");
+      } else {
+        console.log("Indeks pesanan tidak valid.");
+      }
+      showMenu();
       break;
     case '5':
       console.log("Keluar dari aplikasi...");
